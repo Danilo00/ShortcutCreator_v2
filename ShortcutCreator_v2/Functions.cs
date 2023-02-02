@@ -1,21 +1,50 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using Newtonsoft.Json;
-using IWshRuntimeLibrary;
 using System.Configuration;
-using Newtonsoft.Json;
+using System.IO;
 using System.Net;
+using System.Text;
+using System.Windows.Forms;
 
 namespace ShortcutCreator_v2
 {
     class Functions
     {
-        
+        public static void Engine()
+        {
+            try
+            {
+                Cursor.Current = Cursors.WaitCursor;
+                if (Global.configs.Count > 0)
+                {
+                    string shortcutPath = string.Empty;
+                    foreach (ShortcutConfig config in Global.configs)
+                    {
+                        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                        if (!LoadParametersXML()) Global.destinationPath = desktopPath;
+
+                        shortcutPath = Path.Combine(Global.destinationPath, config.LinkName + ".lnk"); // Set Link Name
+                        WshShell shell = new WshShell();
+                        IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+                        shortcut.TargetPath = config.BrowserPath; // Set Browser
+                        shortcut.IconLocation = Path.Combine(Directory.GetCurrentDirectory(), config.IconName); // Set Icon
+                        shortcut.Arguments = config.Url; // Set Website URL
+                        shortcut.Save();
+                        Console.WriteLine("Shortcut created at: " + Global.destinationPath);
+                    }
+                    Cursor.Current = Cursors.Default;
+                    MessageBox.Show($"Shortcuts created at: {Global.destinationPath}", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else MessageBox.Show("Please insert at least one configuration.", "Can't create shortcuts", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            catch (Exception ex)
+            {
+                Global.log.Write($"Functions.Main-->{ex.Message}");
+                MessageBox.Show("Something went wrong... \nMore info in log file", "Can't create shortcuts", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public static void CreateConfigFile(List<ShortcutConfig> configs)
         {
             JsonSerializerSettings _options = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
@@ -48,6 +77,7 @@ namespace ShortcutCreator_v2
             {
                 AppSettingsReader appReader = new AppSettingsReader();
                 Global.destinationPath = appReader.GetValue("destinationShortcutsPath", typeof(string)).ToString();
+                Global.history = appReader.GetValue("history", typeof(string)).ToString();
 
                 return true;
             }
@@ -55,39 +85,6 @@ namespace ShortcutCreator_v2
             {
                 Global.log.Write($"Functions.LoadParametersXML-->{ex.Message}");
                 return false;
-            }
-        }
-        public static void Engine()
-        {
-            try
-            {
-                Cursor.Current = Cursors.WaitCursor;
-                if (Global.configs.Count > 0)
-                {
-                    string shortcutPath = string.Empty;
-                    foreach (ShortcutConfig config in Global.configs)
-                    {
-                        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                        if (!LoadParametersXML()) Global.destinationPath = desktopPath;
-
-                        shortcutPath = Path.Combine(Global.destinationPath, config.LinkName + ".lnk"); // Set Link Name
-                        WshShell shell = new WshShell();
-                        IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-                        shortcut.TargetPath = config.BrowserPath; // Set Browser
-                        shortcut.IconLocation = Path.Combine(Directory.GetCurrentDirectory(), config.IconName); // Set Icon
-                        shortcut.Arguments = config.Url; // Set Website URL
-                        shortcut.Save();
-                        Console.WriteLine("Shortcut created at: " + Global.destinationPath);
-                    }
-                    Cursor.Current = Cursors.Default;
-                    MessageBox.Show($"Shortcuts created at: {Global.destinationPath}","SUCCESS",MessageBoxButtons.OK,MessageBoxIcon.Information);
-                }
-                else MessageBox.Show("Please insert at least one configuration.", "Can't create shortcuts", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            catch (Exception ex)
-            {
-                Global.log.Write($"Functions.Main-->{ex.Message}");
-                MessageBox.Show("Something went wrong... \nMore info in log file", "Can't create shortcuts", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public static string OpenFileDialog()

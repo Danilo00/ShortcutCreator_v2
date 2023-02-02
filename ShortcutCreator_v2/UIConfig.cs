@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using IWshRuntimeLibrary;
-using System.Configuration;
 
 namespace ShortcutCreator_v2
 {
@@ -25,11 +15,15 @@ namespace ShortcutCreator_v2
 
         }
 
+        private void btn_shortcutGenerator_Click(object sender, EventArgs e)
+        {
+            Functions.Engine();
+        }
+
         private void bnt_plus_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrWhiteSpace(txt_linkName.Text) && !string.IsNullOrWhiteSpace(txt_browserPath.Text) && !string.IsNullOrWhiteSpace(txt_iconName.Text) && !string.IsNullOrWhiteSpace(txt_url.Text))
             {
-                //creo una nuova config solo se tutti i campi sono compilati e diventa l'ultimo
                 ClearValues();
                 Global.currentEntry = Global.configs.Count;
                 gb_shortcut.Text = Global.gbShortcut + (Global.currentEntry + 1);
@@ -40,35 +34,6 @@ namespace ShortcutCreator_v2
             {
                 MessageBox.Show("Please do not let empty fields.", "Can't create new configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-        private void ClearValues()
-        {
-            txt_linkName.Text = "";
-            txt_browserPath.Text = "";
-            txt_iconName.Text = "";
-            txt_url.Text = "";
-        }
-        private void SetValues()
-        {
-            try
-            {
-                txt_linkName.Text = Global.configs[Global.currentEntry].LinkName;
-                txt_browserPath.Text = Global.configs[Global.currentEntry].BrowserPath;
-                txt_iconName.Text = Global.configs[Global.currentEntry].IconName;
-                txt_url.Text = Global.configs[Global.currentEntry].Url;
-            }
-            catch
-            {
-                txt_linkName.Text = "";
-                txt_browserPath.Text = "";
-                txt_iconName.Text = "";
-                txt_url.Text = "";
-            }
-        }
-
-        private void btn_shortcutGenerator_Click(object sender, EventArgs e)
-        {
-            Functions.Engine();
         }
 
         private void btn_up_Click(object sender, EventArgs e)
@@ -152,5 +117,55 @@ namespace ShortcutCreator_v2
                 else { SetValues(); }
             }
         }
+
+        private void btnDeleteConfig_Click(object sender, EventArgs e)
+        {
+
+            Global.configs.RemoveAt(Global.currentEntry);
+            if (Global.currentEntry > 0)
+            {
+                Global.currentEntry--;
+                gb_shortcut.Text = Global.gbShortcut + (Global.currentEntry + 1);
+            }
+            SetValues();
+        }
+        private void onFormClose(object sender, FormClosingEventArgs e)
+        {
+            //if(Functions.LoadParametersXML()) maybe it is better I save history only if used before
+            {
+                if (Global.history.ToUpper() == "ON" && Global.configs.Count > 0)
+                {
+                    Functions.CreateConfigFile(Global.configs);
+                    System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Global.exJson));
+                    System.IO.File.Move(Global.json, Global.exJson);
+                }
+            }
+        }
+        #region RIPETITIVE
+        private void ClearValues()
+        {
+            txt_linkName.Text = "";
+            txt_browserPath.Text = "";
+            txt_iconName.Text = "";
+            txt_url.Text = "";
+        }
+        private void SetValues()
+        {
+            try
+            {
+                txt_linkName.Text = Global.configs[Global.currentEntry].LinkName;
+                txt_browserPath.Text = Global.configs[Global.currentEntry].BrowserPath;
+                txt_iconName.Text = Global.configs[Global.currentEntry].IconName;
+                txt_url.Text = Global.configs[Global.currentEntry].Url;
+            }
+            catch
+            {
+                txt_linkName.Text = "";
+                txt_browserPath.Text = "";
+                txt_iconName.Text = "";
+                txt_url.Text = "";
+            }
+        }
+        #endregion
     }
 }

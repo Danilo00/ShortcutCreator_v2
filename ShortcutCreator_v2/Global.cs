@@ -19,7 +19,6 @@ namespace ShortcutCreator_v2
 
         public static LogFile log = new LogFile("log.txt");
         public static int currentEntry = 0;
-        public static int upClickDelta = 1;
-        public static bool isFirstEntry = true;
+        public static string history = string.Empty;
     }
 }
