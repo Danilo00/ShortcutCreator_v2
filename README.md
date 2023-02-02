@@ -67,7 +67,7 @@ You can drag&drop your shortcuts inside the Windows application bar.
 
 ## Download
 
-You can [download](https://github.com/Danilo00/ShortcutCreator_v2/blob/master/ShortcutCreator_v2.zip) the latest installable version of ShortcutCreator_v2 for Windows.
+You can [download](https://github.com/Danilo00/ShortcutCreator_v2/blob/master/ShortcutCreator_v2.1.zip) the latest installable version of ShortcutCreator_v2 for Windows.
 
 ## Credits
 
