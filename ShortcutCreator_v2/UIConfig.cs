@@ -127,14 +127,16 @@ namespace ShortcutCreator_v2
 
         private void btnDeleteConfig_Click(object sender, EventArgs e)
         {
-
-            Global.configs.RemoveAt(Global.currentEntry);
-            if (Global.currentEntry > 0)
+            if(Global.configs.Count > 0)
             {
-                Global.currentEntry--;
-                gb_shortcut.Text = Global.gbShortcut + (Global.currentEntry + 1);
+                Global.configs.RemoveAt(Global.currentEntry);
+                if (Global.currentEntry > 0)
+                {
+                    Global.currentEntry--;
+                    gb_shortcut.Text = Global.gbShortcut + (Global.currentEntry + 1);
+                }
+                SetValues();
             }
-            SetValues();
         }
         private void onFormClose(object sender, FormClosingEventArgs e)
         {
