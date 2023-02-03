@@ -31,6 +31,7 @@ namespace ShortcutCreator_v2
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UIConfig));
             this.gb_shortcut = new System.Windows.Forms.GroupBox();
+            this.btnDeleteConfig = new System.Windows.Forms.Button();
             this.btnPlus = new System.Windows.Forms.Button();
             this.btnUpdateConfig = new System.Windows.Forms.Button();
             this.btn_browserPath = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@ namespace ShortcutCreator_v2
             this.btn_shortcutGenerator = new System.Windows.Forms.Button();
             this.lbl_sign = new System.Windows.Forms.Label();
             this.btnExportImport = new System.Windows.Forms.Button();
-            this.btnDeleteConfig = new System.Windows.Forms.Button();
             this.gb_shortcut.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btn_up)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_down)).BeginInit();
@@ -78,12 +78,22 @@ namespace ShortcutCreator_v2
             this.gb_shortcut.TabStop = false;
             this.gb_shortcut.Text = "Shortcut 1";
             // 
+            // btnDeleteConfig
+            // 
+            this.btnDeleteConfig.Location = new System.Drawing.Point(188, 86);
+            this.btnDeleteConfig.Name = "btnDeleteConfig";
+            this.btnDeleteConfig.Size = new System.Drawing.Size(37, 30);
+            this.btnDeleteConfig.TabIndex = 10;
+            this.btnDeleteConfig.Text = "X";
+            this.btnDeleteConfig.UseVisualStyleBackColor = true;
+            this.btnDeleteConfig.Click += new System.EventHandler(this.btnDeleteConfig_Click);
+            // 
             // btnPlus
             // 
             this.btnPlus.AutoSize = true;
             this.btnPlus.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlus.Location = new System.Drawing.Point(364, 86);
-            this.btnPlus.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnPlus.Margin = new System.Windows.Forms.Padding(2);
             this.btnPlus.Name = "btnPlus";
             this.btnPlus.Size = new System.Drawing.Size(37, 30);
             this.btnPlus.TabIndex = 9;
@@ -94,7 +104,7 @@ namespace ShortcutCreator_v2
             // btnUpdateConfig
             // 
             this.btnUpdateConfig.Location = new System.Drawing.Point(226, 88);
-            this.btnUpdateConfig.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnUpdateConfig.Margin = new System.Windows.Forms.Padding(2);
             this.btnUpdateConfig.Name = "btnUpdateConfig";
             this.btnUpdateConfig.Size = new System.Drawing.Size(134, 28);
             this.btnUpdateConfig.TabIndex = 6;
@@ -190,7 +200,7 @@ namespace ShortcutCreator_v2
             // 
             this.btn_up.Image = ((System.Drawing.Image)(resources.GetObject("btn_up.Image")));
             this.btn_up.Location = new System.Drawing.Point(396, 152);
-            this.btn_up.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_up.Margin = new System.Windows.Forms.Padding(2);
             this.btn_up.Name = "btn_up";
             this.btn_up.Size = new System.Drawing.Size(14, 15);
             this.btn_up.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -202,7 +212,7 @@ namespace ShortcutCreator_v2
             // 
             this.btn_down.Image = ((System.Drawing.Image)(resources.GetObject("btn_down.Image")));
             this.btn_down.Location = new System.Drawing.Point(396, 172);
-            this.btn_down.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_down.Margin = new System.Windows.Forms.Padding(2);
             this.btn_down.Name = "btn_down";
             this.btn_down.Size = new System.Drawing.Size(15, 15);
             this.btn_down.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -214,7 +224,7 @@ namespace ShortcutCreator_v2
             // 
             this.btn_shortcutGenerator.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_shortcutGenerator.Location = new System.Drawing.Point(295, 152);
-            this.btn_shortcutGenerator.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_shortcutGenerator.Margin = new System.Windows.Forms.Padding(2);
             this.btn_shortcutGenerator.Name = "btn_shortcutGenerator";
             this.btn_shortcutGenerator.Size = new System.Drawing.Size(97, 36);
             this.btn_shortcutGenerator.TabIndex = 8;
@@ -237,23 +247,13 @@ namespace ShortcutCreator_v2
             // 
             this.btnExportImport.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExportImport.Location = new System.Drawing.Point(9, 161);
-            this.btnExportImport.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnExportImport.Margin = new System.Windows.Forms.Padding(2);
             this.btnExportImport.Name = "btnExportImport";
             this.btnExportImport.Size = new System.Drawing.Size(136, 27);
             this.btnExportImport.TabIndex = 7;
             this.btnExportImport.Text = "Export/Import";
             this.btnExportImport.UseVisualStyleBackColor = true;
             this.btnExportImport.Click += new System.EventHandler(this.btnExportImport_Click);
-            // 
-            // btnDeleteConfig
-            // 
-            this.btnDeleteConfig.Location = new System.Drawing.Point(188, 86);
-            this.btnDeleteConfig.Name = "btnDeleteConfig";
-            this.btnDeleteConfig.Size = new System.Drawing.Size(37, 30);
-            this.btnDeleteConfig.TabIndex = 10;
-            this.btnDeleteConfig.Text = "X";
-            this.btnDeleteConfig.UseVisualStyleBackColor = true;
-            this.btnDeleteConfig.Click += new System.EventHandler(this.btnDeleteConfig_Click);
             // 
             // UIConfig
             // 
@@ -267,8 +267,9 @@ namespace ShortcutCreator_v2
             this.Controls.Add(this.btn_down);
             this.Controls.Add(this.gb_shortcut);
             this.Controls.Add(this.btn_up);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UIConfig";
-            this.Text = "ShorcuteCreator by DC";
+            this.Text = "ShorcutsCreator by DC";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.onFormClose);
             this.Load += new System.EventHandler(this.UIConfig_Load);
             this.gb_shortcut.ResumeLayout(false);

@@ -58,18 +58,25 @@ namespace ShortcutCreator_v2
 
         private void btnUpdateConfig_Click(object sender, EventArgs e)
         {
-            if (Global.configs.Count > 0)
+            if (!string.IsNullOrWhiteSpace(txt_linkName.Text) && !string.IsNullOrWhiteSpace(txt_browserPath.Text) && !string.IsNullOrWhiteSpace(txt_iconName.Text) && !string.IsNullOrWhiteSpace(txt_url.Text))
             {
-                Global.configs[Global.currentEntry].LinkName = txt_linkName.Text;
-                Global.configs[Global.currentEntry].BrowserPath = txt_browserPath.Text;
-                Global.configs[Global.currentEntry].IconName = txt_iconName.Text;
-                Global.configs[Global.currentEntry].Url = txt_url.Text;
+                if (Global.configs.Count > 0)
+                {
+                    Global.configs[Global.currentEntry].LinkName = txt_linkName.Text;
+                    Global.configs[Global.currentEntry].BrowserPath = txt_browserPath.Text;
+                    Global.configs[Global.currentEntry].IconName = txt_iconName.Text;
+                    Global.configs[Global.currentEntry].Url = txt_url.Text;
+                }
+                else
+                {
+                    ShortcutConfig config = new ShortcutConfig() { LinkName = txt_linkName.Text, BrowserPath = txt_browserPath.Text, IconName = txt_iconName.Text, Url = txt_url.Text };
+                    Global.configs.Add(config);
+                }
             }
-            else
+            else 
             {
-                ShortcutConfig config = new ShortcutConfig() { LinkName = txt_linkName.Text, BrowserPath = txt_browserPath.Text, IconName = txt_iconName.Text, Url = txt_url.Text };
-                Global.configs.Add(config);
-            }
+                MessageBox.Show("Please do not let empty fields.", "Can't create new configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }  
         }
 
         private void btn_iconFileName_Click(object sender, EventArgs e)
